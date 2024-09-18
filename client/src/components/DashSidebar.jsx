@@ -16,6 +16,7 @@ export default function DashSidebar() {
   }, [location.search]);
 
   return (
+    <>
     <Sidebar className="w-56 h-screen flex left-0 top-0 bg-gray-800">
       <Sidebar.Items>
         <Sidebar.ItemGroup className="flex flex-col gap-1">
@@ -38,5 +39,6 @@ export default function DashSidebar() {
         </Sidebar.ItemGroup>
       </Sidebar.Items>
     </Sidebar>
+    </>
   );
 }
