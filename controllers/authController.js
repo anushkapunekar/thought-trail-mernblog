@@ -70,17 +70,11 @@ export const signin = async (req, res, next) => {
 export const google = async (req, res, next) => {
   const { email, name, googlePhotoUrl } = req.body;
 
-  if (!email || !name || !googlePhotoUrl) {
-    return next(errorHandler(400, 'All fields are required'));
-  }
-
   try {
     const user = await User.findOne({ email });
     if (user) {
       const token = jwt.sign(
-        { id: user._id, isAdmin: user.isAdmin },
-        process.env.JWT_SECRET
-      );
+        { id: user._id } , process.env.JWT_SECRET );
       const { password, ...rest } = user._doc;
       return res
         .status(200)
@@ -106,9 +100,7 @@ export const google = async (req, res, next) => {
       await newUser.save();
 
       const token = jwt.sign(
-        { id: newUser._id, isAdmin: newUser.isAdmin },
-        process.env.JWT_SECRET
-      );
+        { id: newUser._id},   process.env.JWT_SECRET);
 
       const { password, ...rest } = newUser._doc;
 

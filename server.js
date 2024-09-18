@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import userRoutes from './routes/userRoutes.js';
 import authRoute from './routes/authRoute.js';
 
+
 dotenv.config();
 
 mongoose.connect(process.env.MONGO_URL)
@@ -15,6 +16,7 @@ mongoose.connect(process.env.MONGO_URL)
     });
 
 const app = express();
+
 
 // Add this middleware to parse incoming JSON data
 app.use(express.json());
@@ -39,3 +41,4 @@ app.use((err , req , res , next)=>{
         message,
     });
 });
+
