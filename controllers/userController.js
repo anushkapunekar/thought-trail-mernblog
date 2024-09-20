@@ -24,9 +24,12 @@ export const updateUser = async(req, res , next)=>{
     if(req.body.username.includes('')){
         return next(errorHandler(400, 'username cannot contain spaces'));
     }
+    if(req.body.username !== req.body.username.toLowerCase()){
+        return next(errorHandler(400, 'username must be lowercase'));
+    }
     if(req.body.username.match(/^[a-zA-Z0-9]+$/)){
         return next(errorHandler(400,'username can only contain letters and numbers'));
-    }
+    }}
     try {
         const updateUser = await User.findByIdAndUpdate(req.params.userId,{
             $set: {
@@ -43,5 +46,7 @@ export const updateUser = async(req, res , next)=>{
         next(error);
         
     }
- }
-};
+ };
+ 
+
+console.log("wroking");

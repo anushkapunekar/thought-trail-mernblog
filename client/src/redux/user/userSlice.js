@@ -6,7 +6,6 @@ const initialState = {
     loading: false,
 };
 
-
 const userSlice = createSlice({
     name: 'user', // Make sure this matches the key in the store
     initialState,
@@ -24,8 +23,21 @@ const userSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+        updateStart: (state) => {
+            state.loading = true;
+            state.error = null;
+        },
+        updateSuccess: (state, action) => {  // Add action here
+            state.loading = false;
+            state.currentUser = action.payload;  // Access action.payload
+            state.error = null;
+        },
+        updateFailure: (state, action) => {  // Add action here
+            state.loading = false;
+            state.error = action.payload;  // Access action.payload
+        },
     },
 });
 
-export const { signInStart, signInSuccess, signInFailure } = userSlice.actions;
+export const { signInStart, signInSuccess, signInFailure, updateStart, updateSuccess, updateFailure } = userSlice.actions;
 export default userSlice.reducer;
