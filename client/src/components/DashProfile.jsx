@@ -1,3 +1,4 @@
+
 import { useDispatch, useSelector } from "react-redux";
 import { TextInput, Button, Alert ,Modal, ModalBody} from "flowbite-react";
 import { useEffect, useRef, useState } from "react";
@@ -23,7 +24,6 @@ export default function DashProfile() {
     const [formData, setFormData] = useState({});
     const filePickerRef = useRef();
     const navigate = useNavigate();
-    
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -39,25 +39,10 @@ export default function DashProfile() {
         }
     }, [imageFile]);
 
-   
-
-
     const uploadImage = async () => {
-        // service firebase.storage {
-    //   match /b/{bucket}/o {
-    //     match /{allPaths=**} {
-    //       allow read;
-    //       allow write: if
-    //       
-    //       request.resource.size < 2 * 1024 * 1024 &&
-    //       request.resource.contentType.matches('image/.*')
-    //     }
-    //   }
-    // }
-    
-
         setImageFileLoading(true);
         setImageFileUploadError(null);
+
         const storage = getStorage(app);
         const fileName = new Date().getTime() + imageFile.name;
         const storageRef = ref(storage, fileName);
@@ -71,7 +56,7 @@ export default function DashProfile() {
             },
             (error) => {
                 setImageFileUploadError('Could not upload image (File must be less than 2MB)');
-                setImageFileUploadProgress(null);
+                setImageFileUploadProgress(0);  // Set it to 0 instead of null
                 setImageFile(null);
                 setImageFileUrl(null);
                 setImageFileLoading(false);
@@ -95,13 +80,12 @@ export default function DashProfile() {
         setUpdateUserSuccess(null);
         setUpdateUserError(null);
 
-        // Check if formData contains at least one value to update
         if (!formData || Object.keys(formData).length === 0) {
             setUpdateUserSuccess("No changes to update");
             return;
         }
         if(imageFileLoading){
-            setUpdateUserError('please wait for image to uploading');
+            setUpdateUserError('Please wait for the image to finish uploading');
             return;
         }
 
@@ -112,7 +96,7 @@ export default function DashProfile() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                // body: JSON.stringify(formData),
+                body: JSON.stringify(formData),  // Fix this line to send form data
             });
 
             const data = await res.json();
@@ -120,7 +104,7 @@ export default function DashProfile() {
                 dispatch(updateFailure(data.message));
                 setUpdateUserError(data.message);
             } else {
-                setUpdateUserSuccess("User's profile updated successsfully");
+                setUpdateUserSuccess("User's profile updated successfully");
                 dispatch(updateSuccess(data));
             }
         } catch (error) {
@@ -128,43 +112,41 @@ export default function DashProfile() {
             setUpdateUserError(error.message);
         }
     };
+
     const handleDeleteUser = async () =>{
         setShowModal(false);
         try {
             dispatch(deleteUserStart());
-            const res = await fetch(`/api/user/delete/${currentUser._id}`,{
+            const res = await fetch(`/api/user/delete/${currentUser._id}`, {
                 method: 'DELETE',
             });
             const data = await res.json();
             if(!res.ok) {
                 dispatch(deleteUserFailure(data.message));
-            }else {
-
+            } else {
                 dispatch(deleteUserSuccess(data));
-                navigate('/sign-up')
+                navigate('/sign-up');
             }
         } catch (error) {
             dispatch(deleteUserFailure(error.message));
         }
-
     };
-         const handleSignout =  async () => {
-            try {
-                const res = await fetch('/api/user/signout', {
-                    method: 'POST',
-                });
-                const data = await res.json();
-                if(!res.ok) {
-                    console.log(data.message);
-                }else {
-                    dispatch(signoutSuccess());
-                }
-            } catch (error) {
-                console.log(error.message);
-            }
-         };
 
-    
+    const handleSignout =  async () => {
+        try {
+            const res = await fetch('/api/user/signout', {
+                method: 'POST',
+            });
+            const data = await res.json();
+            if(!res.ok) {
+                console.log(data.message);
+            } else {
+                dispatch(signoutSuccess());
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
 
     return (
         <div className="max-w-lg mx-auto self-center p-3 w-full">
@@ -204,30 +186,31 @@ export default function DashProfile() {
                 </Button>
             </form>
             <div className="text-red-500 flex justify-between mt-5">
-                <span  onClick={()=>setShowModal(true)} className="cursor-pointer">Delete Account</span>
-                <span onClick={handleSignout}  className="cursor-pointer">Sign Out</span>
+                <span onClick={()=>setShowModal(true)} className="cursor-pointer">Delete Account</span>
+                <span onClick={handleSignout} className="cursor-pointer">Sign Out</span>
             </div>
             {updateUserSuccess && (
-                <Alert color= 'success' className="mt-5">
+                <Alert color='success' className="mt-5">
                     {updateUserSuccess}
                 </Alert>
             )}
-             {updateUserError && (
-                <Alert color= 'Failure' className="mt-5">
+            {updateUserError && (
+                <Alert color='failure' className="mt-5">
                     {updateUserError}
                 </Alert>
-             )}
-             {error && (
-                <Alert color = 'failure' className="mt-5">
+            )}
+            {error && (
+                <Alert color='failure' className="mt-5">
                     {error}
-                </Alert>             )}
-             < Modal
-             show = {showModal}
-             onClose={()=>setShowModal(false)}
-             popup
-             size= 'md'
-             >
-                <Modal.Header/>
+                </Alert>
+            )}
+            <Modal
+                show={showModal}
+                onClose={()=>setShowModal(false)}
+                popup
+                size='md'
+            >
+               <Modal.Header/>
                  <Modal.Body>
                 <div className="text-center">
                     <HiOutlineExclamationCircle className = 'h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto'/>
