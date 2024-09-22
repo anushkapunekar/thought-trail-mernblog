@@ -11,21 +11,22 @@ export default function Header() {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
   const {theme} = useSelector((state)=> state.theme);
-  const handleSignout =  async () => {
+  const handleSignout = async () => {
+    
     try {
-        const res = await fetch('/api/user/signout', {
-            method: 'POST',
-        });
-        const data = await res.json();
-        if(!res.ok) {
-            console.log(data.message);
-        }else {
-            dispatch(signoutSuccess());
-        }
+      const res = await fetch('/api/user/signout', {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signoutSuccess());
+      }
     } catch (error) {
-        console.log(error.message);
+      console.log(error.message);
     }
- };
+  };
   
   return (
     <Navbar className='border-b-2'>
