@@ -2,10 +2,16 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import DashProfile from "../components/DashProfile";
 import DashSidebar from "../components/DashSidebar";
+import Redirect from "../components/Redirect";
 
 export default function Dashboard() {
+  
+  
+
+
   const location = useLocation();
   const [tab, setTab] = useState("");
+ 
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -15,7 +21,13 @@ export default function Dashboard() {
     }
   }, [location.search]);
 
+  
+ 
+
+
   return (
+    <>
+    <Redirect/>
     <div className="min-h-screen flex">
       {/* Sidebar */}
       <div className="w-56">
@@ -27,6 +39,7 @@ export default function Dashboard() {
         {tab === "profile" && <DashProfile />}
       </div>
     </div>
+    </>
   );
 }
 

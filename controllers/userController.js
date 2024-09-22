@@ -34,7 +34,7 @@ export const updateUser = async(req, res , next)=>{
         const updateUser = await User.findByIdAndUpdate(req.params.userId,{
             $set: {
                 username: req.body.username,
-                email:require.body.email,
+                email:req.body.email,
                 profilePicture: req.body.profilePicture,
                 password: req.body.password,
             
@@ -43,6 +43,8 @@ export const updateUser = async(req, res , next)=>{
         const {password,...rest}= updateUser._doc;
         res.status(200).json(rest);
     } catch (error) {
+        console.log(error);
+        
         next(error);
         
     }
