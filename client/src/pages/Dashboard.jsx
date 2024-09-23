@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import DashProfile from "../components/DashProfile";
 import DashSidebar from "../components/DashSidebar";
+import DashPosts from "../components/DashPosts";
 import Redirect from "../components/Redirect";
+
 
 export default function Dashboard() {
   
@@ -37,6 +39,8 @@ export default function Dashboard() {
       <div className="flex-1 flex items-center justify-center p-4">
         {/* Profile Content */}
         {tab === "profile" && <DashProfile />}
+        {/* posts... */}
+        {tab === 'posts' && <DashPosts/>}
       </div>
     </div>
     </>
