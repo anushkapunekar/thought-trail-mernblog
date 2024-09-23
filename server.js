@@ -5,6 +5,7 @@ import userRoutes from './routes/userRoutes.js';
 import authRoute from './routes/authRoute.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
+import postRoute from './routes/postRoute.js';
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
 
+
 app.listen(3000, () => {
     console.log('server is running on port 3000');
 });
@@ -36,6 +38,8 @@ console.log('working');
 
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoute);
+app.use('/api/post', postRoute);
+
 app.use((err , req , res , next)=>{
     const statusCode = err.statusCode|| 500; 
     const message = err.message|| "internal server error";
