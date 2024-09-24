@@ -55,7 +55,7 @@ export default function CreatePost() {
     const handleSubmit = async (e) => {
         e.preventDefault(); // Add this to prevent form from reloading
         try {
-            const res = await fetch('/api/post/create', {
+            const res = await fetch(`/api/post/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ export default function CreatePost() {
             });
             const data = await res.json();
             if (!res.ok) {
-                setPublishError(data.message);
+                setPublishError(data?.message);
                 return
             }
 
