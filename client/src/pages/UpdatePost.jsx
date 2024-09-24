@@ -18,6 +18,8 @@ export default function UpdatePost() {
         category: 'uncategorized',
         image: '',
         content: '',
+        
+       
     });
     const [publishError, setPublishError] = useState(null);
     const { postId } = useParams();
@@ -25,23 +27,28 @@ export default function UpdatePost() {
     const { currentUser } = useSelector((state) => state.user);
 
     useEffect(() => {
-        const fetchPost = async () => {
-            try {
-                const res = await fetch(`/api/post/getposts?postId=${postId}`);
-                const data = await res.json();
-                if (!res.ok) {
-                    console.log(data.message);
-                    setPublishError(data.message);
-                    return;
-                }
-                setFormData(data.post[0]);
-                setPublishError(null);
-            } catch (error) {
-                console.log(error.message);
+        try {
+          const fetchPost = async () => {
+            const res = await fetch(`/api/post/getposts?postId=${postId}`);
+            const data = await res.json();
+            if (!res.ok) {
+              console.log(data.message);
+              setPublishError(data.message);
+              return;
             }
-        };
-        fetchPost();
-    }, [postId]);
+            if (res.ok) {
+              setPublishError(null);
+              setFormData(data.posts[0]);
+            
+            }
+          };
+    
+          fetchPost();
+        } catch (error) {
+          console.log(error.message);
+        }
+      }, [postId]);
+      
 
     const handleUploadImage = async () => {
         if (!file) {
@@ -77,6 +84,10 @@ export default function UpdatePost() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!formData._id) {
+            setPublishError('Post ID is missing');
+            return;
+        }
         try {
             const res = await fetch(`/api/post/updatepost/${formData._id}/${currentUser._id}`, {
                 method: 'PUT',

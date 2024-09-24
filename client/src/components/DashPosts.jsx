@@ -82,9 +82,10 @@ export default function DashPosts() {
                 <span>Edit</span>
               </Table.HeadCell>
             </Table.Head>
+
+            <Table.Body className='divide-y'>
             {userPosts.map((post) => (
-              <Table.Body className='divide-y'>
-                <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+                <Table.Row key={post._id} className='bg-white dark:border-gray-700 dark:bg-gray-800'>
                   <Table.Cell>
                     {new Date(post.updatedAt).toLocaleDateString()}
                   </Table.Cell>
@@ -126,8 +127,8 @@ export default function DashPosts() {
                     </Link>
                   </Table.Cell>
                 </Table.Row>
-              </Table.Body>
             ))}
+          </Table.Body>
           </Table>
           {showMore && (
             <button
