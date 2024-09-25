@@ -4,7 +4,7 @@ import DashProfile from "../components/DashProfile";
 import DashSidebar from "../components/DashSidebar";
 import DashPosts from "../components/DashPosts";
 import DashUsers from "../components/DashUsers";
-import Redirect from "../components/Redirect";
+
 
 
 export default function Dashboard() {
@@ -29,24 +29,25 @@ export default function Dashboard() {
 
 
   return (
-    <>
-    <Redirect/>
-    <div className="min-h-screen flex">
+    
+    
+    <div className='min-h-screen flex flex-col md:flex-row'>
+
+    <div className='md:w-56'>
       {/* Sidebar */}
-      <div className="w-56">
-        <DashSidebar />
-      </div>
-      {/* Main Content */}
-      <div className="flex-1 flex items-center justify-center p-4">
-        {/* Profile Content */}
-        {tab === "profile" && <DashProfile />}
-        {/* posts... */}
-        {tab === 'posts' && <DashPosts/>}
-        {/*users*/}
-        {tab === 'users' && <DashUsers/>}
-      </div>
+      <DashSidebar />
     </div>
-    </>
+    {/* profile... */}
+
+    {tab === 'profile' && <DashProfile />}
+    {/* posts... */}
+
+    {tab === 'posts' && <DashPosts />}
+    {/* users */}
+
+    {tab === 'users' && <DashUsers />}
+    </div>
+
   );
 }
 

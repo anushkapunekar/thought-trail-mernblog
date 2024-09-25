@@ -38,9 +38,9 @@ export default function DashSidebar() {
   };
 
   return (
-    <Sidebar className="w-56 h-screen bg-gray-800 text-white">
+    <Sidebar className="w-full md:w-56">
       <Sidebar.Items>
-        <Sidebar.ItemGroup>
+        <Sidebar.ItemGroup className="flex flex-col gap-1">
           {/* Profile Link */}
           <Link to='/dashboard?tab=profile'>
             <Sidebar.Item
