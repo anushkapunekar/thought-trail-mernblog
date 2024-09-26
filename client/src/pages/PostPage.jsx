@@ -80,6 +80,6 @@ return (
         <CallToAction />
   </div>
   <CommentSection postId={post._id} />
-  </main>
+    </main>
   );
-};
+}
