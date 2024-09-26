@@ -82,4 +82,4 @@ return (
   <CommentSection postId={post._id} />
   </main>
   );
-}
+};
