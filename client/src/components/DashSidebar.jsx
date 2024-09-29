@@ -67,7 +67,7 @@ export default function DashSidebar() {
           </Link>
 
           {/* Admin-only posts link */}
-          {currentUser.isAdmin && (
+          {currentUser && (
             <Link to='/dashboard?tab=posts'>
               <Sidebar.Item
                 active={tab === 'posts'}
